@@ -13,3 +13,4 @@ MIMETYPES = {
         },
     },
 }
+ACCEPTED_FORMATS = ['mp3']
