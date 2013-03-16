@@ -115,7 +115,7 @@ class ArtistResource(Resource):
         artist = Artist.query.get(artist_id)
 
         if not artist:
-            return JSONResponse(404)
+            abort(404)
 
         return artist
 
@@ -123,7 +123,7 @@ class ArtistResource(Resource):
         artist = Artist.query.filter_by(slug=artist_slug).first()
 
         if not artist:
-            return JSONResponse(404)
+            abort(404)
 
         return artist
 
@@ -144,7 +144,7 @@ class ArtistResource(Resource):
 
         artist = Artist.query.get(artist_id)
         if not artist:
-            return JSONResponse(404)
+            abort(404)
 
         g.db.session.delete(artist)
         g.db.session.commit()
@@ -229,7 +229,7 @@ class AlbumResource(Resource):
 
         album = Album.query.get(album_id)
         if not album:
-            return JSONResponse(404)
+            abort(404)
 
         g.db.session.delete(album)
         g.db.session.commit()
@@ -335,7 +335,7 @@ class TracksResource(Resource):
 
         track = Track.query.get(track_id)
         if not track:
-            return JSONResponse(404)
+            abort(404)
 
         g.db.session.delete(track)
         g.db.session.commit()
@@ -360,7 +360,7 @@ class LyricsResource(Resource):
 
     def get(self, track_id=None, track_slug=None):
         if not track_id and not track_slug:
-            return JSONResponse(404)
+            abort(404)
 
         if not track_id and track_slug:
             track = Track.query.filter_by(slug=track_slug).first()
@@ -380,7 +380,7 @@ class LyricsResource(Resource):
             lyrics = None
 
         if not lyrics:
-            return JSONResponse(404)
+            abort(404)
 
         return marshal(lyrics, self.resource_fields)
 
@@ -412,7 +412,7 @@ class ConvertResource(Resource):
     def get(self, track_id):
         track = Track.query.get(track_id)
         if not track:
-            return JSONResponse(404)
+            abort(404)
 
         converter = get_converter()(track.path)
         mimename = request.args.get('mimetype')
